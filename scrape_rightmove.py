@@ -69,6 +69,6 @@ base_url = "https://www.rightmove.co.uk/property-for-sale/find.html?includeSSTC=
 
 properties = get_properties(base_url)
 
-# Save the properties to a CSV file
+# Save the properties to a CSV file to check info
 df = pd.DataFrame(properties)
 df.to_csv('estate_agent_properties.csv', index=False)
