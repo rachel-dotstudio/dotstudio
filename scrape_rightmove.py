@@ -80,4 +80,4 @@ properties = get_properties(base_url)
 
 # Save the properties to a CSV file
 df = pd.DataFrame(properties)
-df.to_csv('estate_agent_properties-old.csv', index=False)
+df.to_csv('estate_agent_properties-new.csv', index=False)
