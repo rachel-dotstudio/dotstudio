@@ -114,3 +114,10 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Test files
+gather-json-properties.py
+properties.json
+
+# Watcher file
+file-watcher.py
