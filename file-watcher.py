@@ -4,7 +4,7 @@ from watchdog.events import FileSystemEventHandler
 import subprocess
 
 class Watcher:
-    DIRECTORY_TO_WATCH = "/"
+    DIRECTORY_TO_WATCH = "/Users/rachelwallis/Documents/websites/CODE/rachel-scraper-tool"  # Update this path
 
     def __init__(self):
         self.observer = Observer()
