@@ -2,9 +2,10 @@ import time
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 import subprocess
+import os
 
 class Watcher:
-    DIRECTORY_TO_WATCH = "/Users/rachelwallis/Documents/websites/CODE/rachel-scraper-tool"  # Update this path
+    DIRECTORY_TO_WATCH = os.path.dirname(os.path.abspath(__file__))  # Use the directory of the watcher script
 
     def __init__(self):
         self.observer = Observer()
@@ -16,7 +17,7 @@ class Watcher:
         try:
             while True:
                 time.sleep(5)
-        except:
+        except KeyboardInterrupt:
             self.observer.stop()
             print("Observer Stopped")
 
@@ -25,7 +26,7 @@ class Watcher:
 class Handler(FileSystemEventHandler):
     @staticmethod
     def on_modified(event):
-        if event.src_path.endswith("scrape_rightmovecopy.py"):
+        if event.src_path.endswith("scrape_rightmove.py"):
             print(f"{event.src_path} has been modified")
             subprocess.run(["python", event.src_path])
 
