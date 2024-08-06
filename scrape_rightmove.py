@@ -32,14 +32,21 @@ def get_properties(base_url):
                 image_url = image_tag['src'] if image_tag else ''
 
                 property_info = listing.find('div', class_='property-information')
-                spans = property_info.find_all('span') if property_info else []
-                span_count = len(spans)
-
-                property_type = spans[0].text.strip() if span_count > 0 else 'N/A'
-                bedroom_icon = 'Y' if span_count > 1 and 'bed-icon' in spans[1].get('class', []) else 'N'
-                no_of_bedrooms = spans[2].text.strip() if span_count > 2 else 'NULL'
-                bathroom_icon = 'Y' if span_count > 3 and 'bathroom-icon' in spans[3].get('class', []) else 'N'
-                no_of_bathrooms = spans[4].text.strip() if span_count > 4 else 'NULL'
+                if property_info:
+                    spans = property_info.find_all('span')
+                    span_count = len(spans)
+                    
+                    property_type = spans[0].text.strip() if span_count > 0 else 'N/A'
+                    bedroom_icon = 'Y' if span_count > 1 and 'bed-icon' in spans[1].get('class', []) else 'N'
+                    no_of_bedrooms = spans[2].text.strip() if span_count > 2 else 'NULL'
+                    bathroom_icon = 'Y' if span_count > 3 and 'bathroom-icon' in spans[3].get('class', []) else 'N'
+                    no_of_bathrooms = spans[4].text.strip() if span_count > 4 else 'NULL'
+                else:
+                    property_type = 'N/A'
+                    bedroom_icon = 'N'
+                    no_of_bedrooms = 'NULL'
+                    bathroom_icon = 'N'
+                    no_of_bathrooms = 'NULL'
 
                 if title and price and address and full_link and full_link not in seen_links:
                     properties.append({
@@ -58,6 +65,8 @@ def get_properties(base_url):
                     seen_links.add(full_link)
             except AttributeError as e:
                 print(f"Error parsing listing: {e}")
+            except Exception as e:
+                print(f"Unexpected error: {e}")
 
         # Increment index to get the next page
         index += 24
@@ -69,6 +78,6 @@ base_url = "https://www.rightmove.co.uk/property-for-sale/find.html?includeSSTC=
 
 properties = get_properties(base_url)
 
-# Save the properties to a CSV file to check info
+# Save the properties to a CSV file
 df = pd.DataFrame(properties)
 df.to_csv('estate_agent_properties.csv', index=False)
